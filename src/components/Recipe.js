@@ -30,7 +30,7 @@ const Recipe = (data) => {
                             const sID = specialsId.indexOf(ingredient.uuid)
                             return (
                                 <li className="special-item">
-                                    <p>{ingredient.name}</p>
+                                    <p>{ingredient.name} <small>({ingredient.measurement})</small></p>
                                     <p>{specials[sID].title}</p>
                                     <p>{specials[sID].type}</p>
                                     <p>{specials[sID].text}</p>
@@ -39,7 +39,7 @@ const Recipe = (data) => {
                         } else {
                             return (
                                 <li>
-                                    <p>{ingredient.name}</p>
+                                    <p>{ingredient.name} <small>({ingredient.measurement})</small></p>
                                 </li>
                             )
                         }
