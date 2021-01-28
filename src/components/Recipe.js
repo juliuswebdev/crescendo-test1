@@ -1,6 +1,15 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { getSpecials, getRecipe, apiUrl } from '../settings/Api';
-import '../styles/Recipe.css';
+import { Link } from 'react-router-dom';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner, faLongArrowAltLeft } from "@fortawesome/free-solid-svg-icons";
+
+import { Table, LoaderSpinner, HeadingH1, HeadingH2 } from '../styles/Styles';
+
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col'
 
 const Recipe = (data) => {
 
@@ -17,7 +26,7 @@ const Recipe = (data) => {
     }
 
     useEffect(() => {
-        loadRecipe()
+        loadRecipe();
     }, []);
 
     const loadSpecials = (ingredients) => {
@@ -26,7 +35,7 @@ const Recipe = (data) => {
             <div>
                 {
                     ingredients.map((ingredient) => {
-                        if ( specialsId.indexOf(ingredient.uuid) != -1 ) {
+                        if ( specialsId.indexOf(ingredient.uuid) !== -1 ) {
                             const sID = specialsId.indexOf(ingredient.uuid)
                             return (
                                 <li className="special-item">
@@ -61,60 +70,84 @@ const Recipe = (data) => {
 
     return (
         <Fragment>
-            <div className="container">
+            <Container>
                {
-                   loading ? 'loading...' : 
+                   loading ? 
+                    <LoaderSpinner>
+                        <FontAwesomeIcon icon={faSpinner} size="lg" className="loader" spin />
+                    </LoaderSpinner>
+                : 
                     <div className="recipe-details">
-                        <h1>{ recipe.title }</h1>
-                        <p><small>{ recipe.postDate }</small></p>
-                        <div className="row">
-                            <div className="left">
+                        <HeadingH1>
+                            <Link to="/" className="back-button"><FontAwesomeIcon icon={faLongArrowAltLeft} size="lg" /></Link>
+                            <h1>{ recipe.title }</h1>
+                            <p><small>{ recipe.postDate }</small></p>
+                        </HeadingH1>
+                        <Row>
+                            <Col md={6}>
                                 { recipe.images ?
                                 <img src={apiUrl + recipe.images.full} alt={ recipe.title } />
                                 : '' }
-                            </div>
-                            <div className="right">
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <th>Description</th>
-                                        <td>{ recipe.description }</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Servings</th>
-                                        <td>{ recipe.servings }</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Preparation Time</th>
-                                        <td>{ recipe.prepTime }</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Cook Time</th>
-                                        <td>{ recipe.cookTime }</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Ingredients</th>
-                                        <td>
-                                            <ul>
-                                                { loadSpecials(recipe.ingredients) }
-                                            </ul>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>Directions</th>
-                                        <td>
-                                            <ul>
-                                            { loadDirections(recipe.directions) }
-                                            </ul>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        </div>
+                            </Col>
+                            <Col md={6}>
+                                <Table>
+                                    <tbody>
+                                        <tr>
+                                            <th>Description</th>
+                                            <td>{ recipe.description }</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Servings</th>
+                                            <td>{ recipe.servings }</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Preparation Time</th>
+                                            <td>{ recipe.prepTime }</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Cook Time</th>
+                                            <td>{ recipe.cookTime }</td>
+                                        </tr>
+                                    </tbody>
+                                </Table>
+                            </Col>
+                        </Row>
+                        <HeadingH2>
+                            <h2>Others</h2>
+                        </HeadingH2>
+                        <Row>   
+                            <Col md={6}>
+                                <Table>
+                                    <tbody>
+                                        <tr>
+                                            <th>Ingredients</th>
+                                            <td>
+                                                <ul>
+                                                    { loadSpecials(recipe.ingredients) }
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </Table>
+                            </Col>
+                            <Col md={6}>
+                                <Table>
+                                    <tbody>
+                                        <tr>
+                                            <th>Directions</th>
+                                            <td>
+                                                <ul>
+                                                { loadDirections(recipe.directions) }
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </Table>
+                            </Col>
+                        </Row>
                     </div>
                }
-            </div>
+            </Container>
         </Fragment>
     )
 

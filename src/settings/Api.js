@@ -12,11 +12,15 @@ export const getRecipe = async (id) => {
   return response.data;
 }
 
+export const getSpecials = async () => {
+  const response = await axios.get(`${apiUrl}/specials`);
+  return response.data;
+};
+
 export const postRecipe = async (values) => {
   return await axios.post(`${apiUrl}/recipes`, values);
 };
 
-export const getSpecials = async () => {
-  const response = await axios.get(`${apiUrl}/specials`);
-  return response.data;
+export const deleteRecipe = async (id) => {
+  return await axios.delete(`${apiUrl}/recipes/${id}`);
 };

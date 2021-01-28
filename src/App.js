@@ -1,10 +1,10 @@
-
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Recipes from './components/Recipes';
 import Recipe from './components/Recipe';
 import AddRecipe from './components/AddRecipe';
-import './App.css';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.css';
 
 function App() {
   return (
